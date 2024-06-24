@@ -17,7 +17,7 @@ const NoteForm: React.FC = () => {
   const queryClient = useQueryClient();
 
   const createNote = useMutation(
-    (newNote: { title: string; content: string }) => api.post('/notes/', newNote),
+    (newNote: { title: string; content: string }) => api.post('/notes', newNote),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('notes');
