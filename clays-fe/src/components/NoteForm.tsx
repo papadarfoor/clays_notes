@@ -1,8 +1,7 @@
 import React from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import api from '../api';
+import { useCreateNote } from '../hooks/create_note_hook'; 
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Input } from './ui/input';
@@ -14,16 +13,7 @@ const NoteSchema = Yup.object().shape({
 });
 
 const NoteForm: React.FC = () => {
-  const queryClient = useQueryClient();
-
-  const createNote = useMutation(
-    (newNote: { title: string; content: string }) => api.post('/notes', newNote),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('notes');
-      },
-    }
-  );
+  const { mutate: createNote } = useCreateNote();
 
   return (
     <Card className="mb-4 p-4">
@@ -31,7 +21,7 @@ const NoteForm: React.FC = () => {
         initialValues={{ title: '', content: '' }}
         validationSchema={NoteSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          createNote.mutate(values, {
+          createNote(values, {
             onSuccess: () => {
               resetForm();
               setSubmitting(false);
