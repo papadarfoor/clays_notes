@@ -18,7 +18,7 @@ This repository contains the frontend React and backend Django application for C
     cd clays_notes
     ```
 
-2. **Build with Docker:**
+2. **Build and run with Docker:**
 
     ```bash
     docker-compose build && docker-compose up
